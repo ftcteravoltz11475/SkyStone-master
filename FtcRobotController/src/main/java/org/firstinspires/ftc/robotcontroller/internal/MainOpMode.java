@@ -4,8 +4,9 @@ package org.firstinspires.ftc.robotcontroller.internal;
  * Created by kevinrockwell on 9/9/18.
  */
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
+@Disabled
 @TeleOp(name="MOM", group="Competition Op Modes")
 public class MainOpMode extends BaseOpMode
 {
@@ -77,11 +78,11 @@ public class MainOpMode extends BaseOpMode
             if (gamepad1.dpad_right) {
                 if (slowDrive && slowDriveDelay == 0) {
                     slowDrive = false;
-                    speedCorrection = 1;
+
                     slowDriveDelay = 200;
                 } else if (!slowDrive && slowDriveDelay == 0) {
                     slowDrive = true;
-                    speedCorrection = 3.3;
+
                     slowDriveDelay = 200;
                 }
             }

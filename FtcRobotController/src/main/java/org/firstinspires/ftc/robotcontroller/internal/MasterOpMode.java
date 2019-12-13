@@ -16,8 +16,6 @@ public class MasterOpMode extends Robot{
         float rightDriveY, leftDriveY, rightDriveX, leftDriveX;
         double angle = 0;
         int topPos = 6000;
-        boolean mecDrive = false;
-
 
         waitForStart();
 
@@ -67,18 +65,8 @@ public class MasterOpMode extends Robot{
             if (slowDrive) {
                 rightDriveY *= SLOWSPEED;
                 leftDriveY *= SLOWSPEED;
-//                rightDriveX *= SLOWSPEED;
             }
 
-/*
-            if(gamepad1.right_stick_button){
-                mecDrive = true;
-            }
-            if(gamepad1.left_stick_button){
-                mecDrive = false;
-            }
-
- */
 
             if(gamepad1.dpad_left){
                 MecanumDrive(-1);
@@ -87,15 +75,18 @@ public class MasterOpMode extends Robot{
                 MecanumDrive(1);
             }
             else{
-                TankDrive(rightDriveY, leftDriveY);
+                TankDrive(-rightDriveY, -leftDriveY);
             }
 
+            if(gamepad1.right_bumper){
+                resetPosWheel();
+            }
 
             telemetry.addData("Lift Pos:", getPosLift());
-            telemetry.addData("Wheel Pos:", getPosWheel());
+            telemetry.addData("Left Wheel Pos:", getPosWheelLeft());
+            telemetry.addData("Right Wheel Pos:",getPosWheelRight());
             telemetry.addData("Angle: ",angle);
             telemetry.addData("Slow Drive: ", slowDrive);
-            telemetry.addData("Mecanum Drive", mecDrive);
             telemetry.update();
         }
     }

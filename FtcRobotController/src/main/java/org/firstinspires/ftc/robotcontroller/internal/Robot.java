@@ -4,42 +4,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-import android.graphics.Bitmap;
-
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.util.RobotLog;
-import com.qualcomm.robotcore.util.ThreadPool;
-import com.vuforia.Frame;
-
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.function.Consumer;
-import org.firstinspires.ftc.robotcore.external.function.Continuation;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.matrices.MatrixF;
-import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
-import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
 public abstract class  Robot extends LinearOpMode{
     private Servo foundationServo, clawServo;
     private DcMotor rightFrontMotor,leftFrontMotor, rightBackMotor, leftBackMotor, liftMotorLeft, liftMotorRight;
-    private int posLift, posWheel;
+    private int wheelLeftBase, posLift, wheelRightBase;
     //private WebcamName webcam;
 
     public void InitializeHardware(){
@@ -66,8 +34,8 @@ public abstract class  Robot extends LinearOpMode{
         liftMotorLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Wheel initialize
-        leftFrontMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftBackMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightBackMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightFrontMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftBackMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -80,8 +48,9 @@ public abstract class  Robot extends LinearOpMode{
         leftBackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Getting current positions
-        posLift = liftMotorLeft.getCurrentPosition();
-        posWheel = leftBackMotor.getCurrentPosition();  // ???
+        wheelLeftBase = leftBackMotor.getCurrentPosition();
+        wheelRightBase = rightBackMotor.getCurrentPosition();
+        posLift = liftMotorLeft.getCurrentPosition();  // ???
         //int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         //VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
         //parameters.vuforiaLicenseKey = "AT0vdpL/////AAABmYfRfMJ4SEYKmqchn8mtyN4cj9kPD9y8s0MERpQOBt8B8ALWw/IuTuMrIMGp4bayqI7a4aAiW8Wx+Orm9xZ5O8K7mdmXrtFUuN0GF/agS/M6Sz4s4bJrgGio3Aauy1Shd18cGy7NWW4thm+vDQlOGgIAR0FEOEt4nv2RtcaK24Cusr4VgwGldY9/v6O7XGOwa4uAcR6Q3oI+wkuighO4Ag1wFAd3GyAmFMXTQvw41xbeNSZMOHpBJLx7eU348xWsaUNcdUoE02xyH/xZ6qUjNcDLcNnvP/+0LwFaRolPmNqCFfmB2cdgYsJfvkc32xgTSYALJYRi90bG72G/e2U9cs2Na2VzopyJM6a6nljBiQq9";
@@ -94,18 +63,18 @@ public abstract class  Robot extends LinearOpMode{
 
     public void TankDrive(float power1, float power2){
         //Sets the power for the right to power1 scaled and left power2 scaled
-        rightFrontMotor.setPower(ScalePower(power1));
-        rightBackMotor.setPower(ScalePower(power1));
+        rightFrontMotor.setPower(0.83 *ScalePower(power1));
+        rightBackMotor.setPower(0.83 * ScalePower(power1));
         leftFrontMotor.setPower(ScalePower(power2));
         leftBackMotor.setPower(ScalePower(power2));
     }
 
     public void MecanumDrive(float power1){
         //Sets the power for the right to power1 scaled and left power2 scaled
-        rightFrontMotor.setPower(-ScalePower(power1));
-        rightBackMotor.setPower(ScalePower(power1));
-        leftFrontMotor.setPower(ScalePower(power1));
-        leftBackMotor.setPower(-ScalePower(power1));
+        rightFrontMotor.setPower(0.83 * ScalePower(power1));
+        rightBackMotor.setPower(0.83 * -ScalePower(power1));
+        leftFrontMotor.setPower(-ScalePower(power1));
+        leftBackMotor.setPower(ScalePower(power1));
     }
 
     public void TurnClaw(){
@@ -137,12 +106,57 @@ public abstract class  Robot extends LinearOpMode{
         foundationServo.setPosition(0);
     }
 
-    public int getPosLift(){
+    public int getPosWheelLeft(){
         //Get the position of the motor in the lift, 0 is starting position.
+        return wheelLeftBase - leftBackMotor.getCurrentPosition();
+    }
+
+    public int getPosWheelRight(){
+        return wheelRightBase - rightBackMotor.getCurrentPosition();
+    }
+
+    public int getPosLift(){
         return posLift - liftMotorLeft.getCurrentPosition();
     }
 
-    public int getPosWheel(){
-        return leftBackMotor.getCurrentPosition() - posWheel;
+    public void resetPosWheel(){
+        wheelLeftBase = leftBackMotor.getCurrentPosition();
+        wheelRightBase = rightBackMotor.getCurrentPosition();
+    }
+    public void AutoDrive(int targetLeft, int targetRight, double power) {
+        int startLeft = leftFrontMotor.getCurrentPosition();
+        int startRight = rightFrontMotor.getCurrentPosition();
+
+        leftFrontMotor.setTargetPosition(startLeft + targetLeft);
+        rightFrontMotor.setTargetPosition(startRight + targetRight);
+        leftBackMotor.setTargetPosition(startLeft + targetLeft);
+        rightBackMotor.setTargetPosition(startRight + targetRight);
+
+        leftFrontMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightFrontMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftBackMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightBackMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        leftFrontMotor.setPower(power);
+        rightFrontMotor.setPower(power * 0.83);
+        leftBackMotor.setPower(power);
+        rightBackMotor.setPower(power * 0.83);
+
+        while(leftFrontMotor.isBusy() && rightFrontMotor.isBusy()) {
+            sleep(5);
+        }
+        leftFrontMotor.setPower(0);
+        rightFrontMotor.setPower(0);
+        leftBackMotor.setPower(0);
+        rightBackMotor.setPower(0);
+
+        leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftBackMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightBackMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        telemetry.addData("Done!", "");
+        telemetry.update();
+        sleep(1000);
+
     }
 }

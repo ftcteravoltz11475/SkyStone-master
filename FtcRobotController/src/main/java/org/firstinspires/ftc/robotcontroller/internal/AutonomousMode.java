@@ -13,13 +13,28 @@ public class AutonomousMode extends Robot{
 
     @Override
     public void runOpMode() throws InterruptedException{
+        final int FOOT = 3500;
+
         InitializeHardware();
+
         waitForStart();
          while(!opModeIsActive()) {
              sleep(10);
          }
-         AutoDrive(8000, 8000, 1);
-
+        for(int i = 0; i < 3; i++) {
+            TurnClaw();
+            sleep(400);
+            ResetClaw();
+            sleep(400);
+        }
+        AutoDriveFB((int)(2.416 * FOOT), 1);
+        TurnClaw();
+        sleep(400);
+        AutoLift(100);
+        AutoDriveFB((int) (-1.5*FOOT), -1);
+        Rotate(90);
+        AutoDriveFB((int)(2.5 * FOOT), 1);
+        AutoLift(0);
 
     }
 }

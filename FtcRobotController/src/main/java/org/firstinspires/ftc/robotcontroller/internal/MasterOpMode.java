@@ -35,10 +35,10 @@ public class MasterOpMode extends Robot{
 
             //y lifts and a lowers lift, otherwise stop the lift
             if(gamepad2.a && getPosLift() >= 0) {
-                Lift(1);
+                Lift(-1);
             }
             else if(gamepad2.y && getPosLift()  <= topPos) {
-                Lift(-1);
+                Lift(1);
             }
             else {
                 Lift(0);

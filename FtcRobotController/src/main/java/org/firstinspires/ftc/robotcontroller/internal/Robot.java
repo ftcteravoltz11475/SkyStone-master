@@ -117,7 +117,7 @@ public abstract class  Robot extends LinearOpMode {
     }
 
     public int getPosLift() {
-        return posLift - liftMotorLeft.getCurrentPosition();
+        return -posLift + liftMotorLeft.getCurrentPosition();
     }
 
     public void resetPosWheel() {

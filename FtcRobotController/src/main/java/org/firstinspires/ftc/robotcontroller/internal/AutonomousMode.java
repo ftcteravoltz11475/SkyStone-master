@@ -21,20 +21,38 @@ public class AutonomousMode extends Robot{
          while(!opModeIsActive()) {
              sleep(10);
          }
-        for(int i = 0; i < 3; i++) {
+
+         for(int i = 0; i < 2; i++) {
             TurnClaw();
-            sleep(400);
+            sleep(200);
             ResetClaw();
-            sleep(400);
+            sleep(200);
         }
         AutoDriveFB((int)(2.416 * FOOT), 1);
-        TurnClaw();
-        sleep(400);
-        AutoLift(100);
-        AutoDriveFB((int) (-1.5*FOOT), -1);
-        Rotate(90);
-        AutoDriveFB((int)(2.5 * FOOT), 1);
-        AutoLift(0);
+
+         for(double distance = 3.5; distance <= 4.9; distance += 0.7) {
+             TurnClaw();
+             sleep(200);
+             AutoLift(100);
+             AutoDriveFB((int) (-1.5*FOOT), -1);
+             Rotate(90);
+             AutoDriveFB((int)(distance * FOOT), 1);
+             ResetClaw();
+
+             if(distance!=4.9) {
+                 AutoDriveFB((int)((distance + 0.7)*FOOT), 1);
+                 Rotate(90);
+                 AutoDriveFB((int) (1.5*FOOT), -1);
+             }
+             if(distance==4.9) {
+                 AutoDriveFB(-FOOT, 1);
+             }
+             AutoLift(-100);
+
+         }
+
+
+
 
     }
 }

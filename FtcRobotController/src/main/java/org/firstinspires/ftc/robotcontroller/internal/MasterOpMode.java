@@ -47,10 +47,10 @@ public class MasterOpMode extends Robot{
 
             //b closes the foundation servo and x opens it.
             if (gamepad2.b) {
-                TurnFoundationServo(0.5);
+                ResetFoundationServo();
             }
             if(gamepad2.x){
-                ResetFoundationServo();
+                TurnFoundationServo();
             }
 
             //If the dpad up is pressed, turn off slow drive
@@ -67,16 +67,7 @@ public class MasterOpMode extends Robot{
                 leftDriveY *= SLOWSPEED;
             }
 
-
-            if(gamepad1.dpad_left){
-                MecanumDrive(-1);
-            }
-            else if(gamepad1.dpad_right){
-                MecanumDrive(1);
-            }
-            else{
-                TankDrive(-rightDriveY, -leftDriveY);
-            }
+            TankDrive(-rightDriveY, -leftDriveY);
 
             if(gamepad1.right_bumper){
                 resetPosWheel();

@@ -8,7 +8,8 @@ public abstract class  Robot extends LinearOpMode {
     private Servo foundationServo, clawServo;
     private DcMotor rightFrontMotor, leftFrontMotor, rightBackMotor, leftBackMotor, liftMotorLeft, liftMotorRight;
     private int wheelLeftBase, posLift, wheelRightBase;
-    public final double scaleRight = 0.815;
+    public final double scaleRight = 0.97;
+    public final double scaleLeft = 1;
     //private WebcamName webcam;
 
     public void InitializeHardware() {
@@ -64,18 +65,10 @@ public abstract class  Robot extends LinearOpMode {
 
     public void TankDrive(float power1, float power2) {
         //Sets the power for the right to power1 scaled and left power2 scaled
-        rightFrontMotor.setPower(0.82 * ScalePower(power1));
-        rightBackMotor.setPower(0.82 * ScalePower(power1));
-        leftFrontMotor.setPower(ScalePower(power2));
-        leftBackMotor.setPower(ScalePower(power2));
-    }
-
-    public void MecanumDrive(float power1) {
-        //Sets the power for the right to power1 scaled and left power2 scaled
-        rightFrontMotor.setPower(0.82 * ScalePower(power1));
-        rightBackMotor.setPower(0.82 * -ScalePower(power1));
-        leftFrontMotor.setPower(-ScalePower(power1));
-        leftBackMotor.setPower(ScalePower(power1));
+        rightFrontMotor.setPower(scaleRight * ScalePower(power1));
+        rightBackMotor.setPower(scaleRight * ScalePower(power1));
+        leftFrontMotor.setPower(scaleLeft * ScalePower(power2));
+        leftBackMotor.setPower(scaleLeft * ScalePower(power2));
     }
 
     public void TurnClaw() {
@@ -95,15 +88,12 @@ public abstract class  Robot extends LinearOpMode {
         liftMotorRight.setPower(power);
     }
 
-    public void TurnFoundationServo() {
+    public void ResetFoundationServo() {
         foundationServo.setPosition(0.5);
     }
 
-    public void TurnFoundationServo(double angle) {
-        foundationServo.setPosition(angle);
-    }
 
-    public void ResetFoundationServo() {
+    public void TurnFoundationServo() {
         foundationServo.setPosition(0);
     }
 
@@ -129,9 +119,9 @@ public abstract class  Robot extends LinearOpMode {
         int startLeft = leftFrontMotor.getCurrentPosition();
         int startRight = rightFrontMotor.getCurrentPosition();
 
-        leftFrontMotor.setTargetPosition(startLeft + targetLeft);
+        leftFrontMotor.setTargetPosition(startLeft + (int)(targetLeft * scaleLeft));
         rightFrontMotor.setTargetPosition(startRight + (int) (targetRight * scaleRight));
-        leftBackMotor.setTargetPosition(startLeft + targetLeft);
+        leftBackMotor.setTargetPosition(startLeft + (int)(targetLeft * scaleLeft));
         rightBackMotor.setTargetPosition(startRight + (int) (targetRight * scaleRight));
 
         leftFrontMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -139,9 +129,9 @@ public abstract class  Robot extends LinearOpMode {
         leftBackMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightBackMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        leftFrontMotor.setPower(power);
+        leftFrontMotor.setPower(power * scaleLeft);
         rightFrontMotor.setPower(power * scaleRight);
-        leftBackMotor.setPower(power);
+        leftBackMotor.setPower(power * scaleLeft);
         rightBackMotor.setPower(power * scaleRight);
 
         while (leftFrontMotor.isBusy() && rightFrontMotor.isBusy()) {
@@ -165,9 +155,9 @@ public abstract class  Robot extends LinearOpMode {
         int startLeft = leftFrontMotor.getCurrentPosition();
         int startRight = rightFrontMotor.getCurrentPosition();
 
-        leftFrontMotor.setTargetPosition(startLeft + target);
+        leftFrontMotor.setTargetPosition(startLeft + (int)(target * scaleLeft));
         rightFrontMotor.setTargetPosition(startRight + (int) (target * scaleRight));
-        leftBackMotor.setTargetPosition(startLeft + target);
+        leftBackMotor.setTargetPosition(startLeft + (int)(target * scaleLeft));
         rightBackMotor.setTargetPosition(startRight + (int) (target * scaleRight));
 
         leftFrontMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -175,9 +165,9 @@ public abstract class  Robot extends LinearOpMode {
         leftBackMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightBackMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        leftFrontMotor.setPower(power);
+        leftFrontMotor.setPower(power * scaleLeft);
         rightFrontMotor.setPower(power * scaleRight);
-        leftBackMotor.setPower(power);
+        leftBackMotor.setPower(power * scaleLeft);
         rightBackMotor.setPower(power * scaleRight);
 
         while (leftFrontMotor.isBusy() && rightFrontMotor.isBusy()) {
@@ -218,7 +208,7 @@ public abstract class  Robot extends LinearOpMode {
     }
 
     public void Rotate(int degrees) {
-        int NINETYDEGREES = 2500;
+        int NINETYDEGREES = 2900;
 
         AutoDriveTank(-(NINETYDEGREES * degrees) / 90, (NINETYDEGREES * degrees) / 90, 1);
     }

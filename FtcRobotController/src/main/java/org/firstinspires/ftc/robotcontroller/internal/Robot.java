@@ -8,8 +8,8 @@ public abstract class  Robot extends LinearOpMode {
     private Servo foundationServo, clawServo;
     private DcMotor rightFrontMotor, leftFrontMotor, rightBackMotor, leftBackMotor, liftMotorLeft, liftMotorRight;
     private int wheelLeftBase, posLift, wheelRightBase;
-    public final double scaleRight = 0.97;
-    public final double scaleLeft = 1;
+    public double scaleRight = 0.97;
+    public double scaleLeft = 1;
     //private WebcamName webcam;
 
     public void InitializeHardware() {
@@ -92,6 +92,9 @@ public abstract class  Robot extends LinearOpMode {
         foundationServo.setPosition(0.5);
     }
 
+    public void TurnFoundationServo(double pos) {
+        foundationServo.setPosition(pos);
+    }
 
     public void TurnFoundationServo() {
         foundationServo.setPosition(0);

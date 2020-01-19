@@ -58,7 +58,7 @@ public abstract class  Robot extends LinearOpMode {
         //parameters.vuforiaLicenseKey = "AT0vdpL/////AAABmYfRfMJ4SEYKmqchn8mtyN4cj9kPD9y8s0MERpQOBt8B8ALWw/IuTuMrIMGp4bayqI7a4aAiW8Wx+Orm9xZ5O8K7mdmXrtFUuN0GF/agS/M6Sz4s4bJrgGio3Aauy1Shd18cGy7NWW4thm+vDQlOGgIAR0FEOEt4nv2RtcaK24Cusr4VgwGldY9/v6O7XGOwa4uAcR6Q3oI+wkuighO4Ag1wFAd3GyAmFMXTQvw41xbeNSZMOHpBJLx7eU348xWsaUNcdUoE02xyH/xZ6qUjNcDLcNnvP/+0LwFaRolPmNqCFfmB2cdgYsJfvkc32xgTSYALJYRi90bG72G/e2U9cs2Na2VzopyJM6a6nljBiQq9";
     }
 
-    private float ScalePower(float power) {
+    public float ScalePower(float power) {
         //Scales the power to be power * |power|
         return Math.abs(power) * power;
     }

@@ -78,6 +78,8 @@ public class MasterOpMode extends Robot{
             telemetry.addData("Right Wheel Pos:",getPosWheelRight());
             telemetry.addData("Angle: ",angle);
             telemetry.addData("Slow Drive: ", slowDrive);
+            telemetry.addData("Left Power: ", scaleLeft * ScalePower(-leftDriveY));
+            telemetry.addData("Right Power: ", scaleRight * ScalePower(-rightDriveY));
             telemetry.update();
         }
     }

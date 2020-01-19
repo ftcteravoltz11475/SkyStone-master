@@ -26,7 +26,7 @@ public class BlueFoundationAuto extends Robot{
         scaleRight = 0.6;
         AutoDriveFB((int)(-2.4 * FOOT), -1);
         scaleRight = sR;
-        Rotate(-27);
+        Rotate(-24);
         AutoDriveFB((int)(-1 * FOOT),-1);
         TurnFoundationServo();
         sleep(200);
@@ -35,16 +35,15 @@ public class BlueFoundationAuto extends Robot{
         AutoDriveTank(-6000, 6000, 1);
         Rotate(-10);
         ResetFoundationServo();
-        for(int i = 0; i < 8; i++) {
-            TurnClaw();
-            sleep(200);
-            ResetClaw();
-            sleep(200);
-        }
+        ResetClaw();
         sleep(300);
         TurnClaw();
         sleep(800);
-        AutoDriveFB((int)(3 * FOOT), 1);
+        AutoDriveFB(-FOOT, -1);
+
+        AutoDriveFB(FOOT, 1);
+        Rotate(-20);
+        AutoDriveFB((int)(2.7 * FOOT), 1);
         /*
         AutoDriveFB((int)(2.4 * FOOT), 1);
         ResetFoundationServo();

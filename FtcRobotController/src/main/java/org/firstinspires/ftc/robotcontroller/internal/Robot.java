@@ -170,8 +170,8 @@ public abstract class  Robot extends LinearOpMode {
 
         leftFrontMotor.setPower(power * scaleLeft);
         rightFrontMotor.setPower(power * scaleRight);
-        leftBackMotor.setPower(power * scaleLeft);
-        rightBackMotor.setPower(power * scaleRight);
+        rightBackMotor.setPower(power * scaleLeft);
+        leftBackMotor.setPower(power * scaleRight);
 
         while (leftFrontMotor.isBusy() && rightFrontMotor.isBusy()) {
             sleep(5);
@@ -189,6 +189,7 @@ public abstract class  Robot extends LinearOpMode {
         telemetry.update();
     }
 
+    //    !! CLOCKWISE IS NEGATIVE !! COUNTERCLOCKWISE IS POSITIVE!!
     public void AutoLift(int position) {
         liftMotorLeft.setTargetPosition(position + liftMotorLeft.getCurrentPosition());
         liftMotorRight.setTargetPosition(position + liftMotorRight.getCurrentPosition());
@@ -211,8 +212,8 @@ public abstract class  Robot extends LinearOpMode {
     }
 
     public void Rotate(int degrees) {
-        int NINETYDEGREES = 2900;
+        int NINETYDEGREES = 2900/4;
 
-        AutoDriveTank(-(NINETYDEGREES * degrees) / 90, (NINETYDEGREES * degrees) / 90, 1);
+        AutoDriveTank(-(NINETYDEGREES * degrees) / 90, (NINETYDEGREES * degrees) / 90, .5);
     }
 }

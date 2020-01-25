@@ -21,7 +21,7 @@ public class WaitThenPark extends Robot{
         while(!opModeIsActive()) {
             sleep(10);
         }
-        AutoDriveFB((int)(-2.4 * FOOT), -1);
+        AutoDriveFB((int)(1 * FOOT), -1);
         scaleLeft += 0.05;
     }
 }

@@ -214,6 +214,6 @@ public abstract class  Robot extends LinearOpMode {
     public void Rotate(int degrees) {
         int NINETYDEGREES = 2900/4;
 
-        AutoDriveTank(-(NINETYDEGREES * degrees) / 90, (NINETYDEGREES * degrees) / 90, .5);
+        AutoDriveTank(-(NINETYDEGREES * degrees) / 90, (NINETYDEGREES * degrees) / 90, .75);
     }
 }

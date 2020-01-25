@@ -14,7 +14,7 @@ public class RedFoundationAuto extends Robot{
 
     @Override
     public void runOpMode() throws InterruptedException{
-        final int FOOT = 3200;
+        final int FOOT = 800;
         final double sL = scaleLeft;
         InitializeHardware();
 
@@ -23,25 +23,24 @@ public class RedFoundationAuto extends Robot{
             sleep(10);
         }
         ResetFoundationServo();
-        scaleLeft = 0.7;
-        AutoDriveFB((int)(-2.4 * FOOT), -1);
-        scaleLeft = sL;
-        Rotate(36);
-        AutoDriveFB((int)(-1 * FOOT),-1);
+        AutoDriveFB((int) (-1.5*FOOT), -0.5);
+        Rotate(-30);
+        AutoDriveFB((int) (-.75*FOOT), -0.5);
+        Rotate(30);
+        AutoDriveFB((int) (-FOOT), -0.25);
         TurnFoundationServo();
         sleep(200);
-        Rotate(-20);
-        AutoDriveFB((int)(2.7 * FOOT), 1);
-        AutoDriveTank(10000, -10000, 1);
+        Rotate(-40);
+        AutoDriveFB((int) (3.1 * FOOT), -0.25);
+        AutoDriveTank(3000, -3000, 0.25);
+        Rotate(20);
+        ResetFoundationServo();
+        ResetClaw();
         sleep(300);
         TurnClaw();
         sleep(800);
-        AutoDriveFB(-FOOT, -1);
-        ResetFoundationServo();
-        sleep(300);
-        AutoDriveFB((int)(2.7 * FOOT), 1);
-        Rotate(-15);
-        AutoDriveFB((int)(0.4 * FOOT), 1);
+        AutoDriveFB((int) (-.5*FOOT), -0.5);
+        AutoDriveFB((int) (3.5*FOOT), -0.5);
 
     }
 }

@@ -89,7 +89,7 @@ public abstract class  Robot extends LinearOpMode {
     }
 
     public void ResetFoundationServo() {
-        foundationServo.setPosition(0.5);
+        foundationServo.setPosition(1);
     }
 
     public void TurnFoundationServo(double pos) {
@@ -97,7 +97,7 @@ public abstract class  Robot extends LinearOpMode {
     }
 
     public void TurnFoundationServo() {
-        foundationServo.setPosition(0);
+        foundationServo.setPosition(.5);
     }
 
     public int getPosWheelLeft() {

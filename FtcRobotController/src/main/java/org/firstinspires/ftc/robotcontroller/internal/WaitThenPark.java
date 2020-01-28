@@ -13,16 +13,16 @@ public class WaitThenPark extends Robot{
 
     @Override
     public void runOpMode() throws InterruptedException{
-        final int FOOT = 3200;
-        scaleLeft -= 0.05;
+        final int FOOT = 800;
+       // scaleLeft -= 0.05;
         InitializeHardware();
 
         waitForStart();
         while(!opModeIsActive()) {
             sleep(10);
         }
-        AutoDriveFB((int)(1 * FOOT), -1);
-        scaleLeft += 0.05;
+        AutoDriveFB((int)(-3 * FOOT), -1);
+        //scaleLeft += 0.05;
     }
 }
 

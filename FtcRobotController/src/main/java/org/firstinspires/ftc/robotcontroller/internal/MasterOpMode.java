@@ -14,6 +14,9 @@ public class MasterOpMode extends Robot{
         final double SLOWSPEED = .7;
         boolean slowDrive = false;
         float rightDriveY, leftDriveY, rightDriveX, leftDriveX;
+        float last_rightDriveY = 0;
+        float last_leftDriveY = 0;
+
         double angle = 0;
         int topPos = 6000;
 
@@ -21,8 +24,8 @@ public class MasterOpMode extends Robot{
 
         while (opModeIsActive()) {
 
-            rightDriveY = gamepad1.right_stick_y;
-            leftDriveY = gamepad1.left_stick_y;
+            rightDriveY = (gamepad1.right_stick_y);
+            leftDriveY = (gamepad1.left_stick_y);
 
 
             //right bumper closes the claw and vice versa

@@ -64,13 +64,19 @@ public class MasterOpMode extends Robot{
             if (gamepad1.dpad_down) {
                 slowDrive = true;
             }
+            if(gamepad1.dpad_right){
+                accel += 0.001;
+            }
+            if(gamepad1.dpad_left){
+                accel -= 0.001;
+            }
 
             if (slowDrive) {
                 rightDriveY *= SLOWSPEED;
                 leftDriveY *= SLOWSPEED;
             }
 
-            TankDrive(-rightDriveY, -leftDriveY);
+            TestTankDrive(-rightDriveY, -leftDriveY);
 
             if(gamepad1.right_bumper){
                 resetPosWheel();

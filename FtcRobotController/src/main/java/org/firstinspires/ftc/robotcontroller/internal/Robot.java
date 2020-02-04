@@ -4,12 +4,14 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-public abstract class  Robot extends LinearOpMode {
-    private Servo foundationServo, clawServo;
-    private DcMotor rightFrontMotor, leftFrontMotor, rightBackMotor, leftBackMotor, liftMotorLeft, liftMotorRight;
-    private int wheelLeftBase, posLift, wheelRightBase;
-    public double scaleRight = 0.97;
+public abstract class Robot extends LinearOpMode {
+    public Servo foundationServo, clawServo;
+    public DcMotor rightFrontMotor, leftFrontMotor, rightBackMotor, leftBackMotor, liftMotorLeft, liftMotorRight;
+    public int wheelLeftBase, posLift, wheelRightBase;
+    public double scaleRight = 1;
     public double scaleLeft = 1;
+    public float targetPowerRight, targetPowerLeft, currentPowerRight = 0, currentPowerLeft = 0;
+    public float accel = 0.2f;
     //private WebcamName webcam;
 
     public void InitializeHardware() {
@@ -36,8 +38,8 @@ public abstract class  Robot extends LinearOpMode {
         liftMotorLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Wheel initialize
-        rightBackMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightFrontMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftFrontMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftBackMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftBackMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -60,7 +62,7 @@ public abstract class  Robot extends LinearOpMode {
 
     public float ScalePower(float power) {
         //Scales the power to be power * |power|
-        return Math.abs(power) * power;
+        return (float)Math.pow(power, 3);
     }
 
     public void TankDrive(float power1, float power2) {
@@ -69,6 +71,20 @@ public abstract class  Robot extends LinearOpMode {
         rightBackMotor.setPower(scaleRight * ScalePower(power1));
         leftFrontMotor.setPower(scaleLeft * ScalePower(power2));
         leftBackMotor.setPower(scaleLeft * ScalePower(power2));
+    }
+
+    public void TestTankDrive(float power1, float power2) {
+        //Sets the power for the right to power1 scaled and left power2 scaled
+        targetPowerRight = power1;
+        targetPowerLeft = power2;
+
+        currentPowerRight += accel * (targetPowerRight - currentPowerRight);
+        currentPowerLeft += accel * (targetPowerLeft - currentPowerLeft);
+
+        rightFrontMotor.setPower(scaleRight * (currentPowerRight));
+        rightBackMotor.setPower(scaleRight * (currentPowerRight));
+        leftFrontMotor.setPower(scaleLeft * (currentPowerLeft));
+        leftBackMotor.setPower(scaleLeft * (currentPowerLeft));
     }
 
     public void TurnClaw() {

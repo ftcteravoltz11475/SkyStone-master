@@ -32,7 +32,7 @@ public class RedFoundationAuto extends Robot{
         sleep(200);
         Rotate(-40);
         AutoDriveFB((int) (2.7 * FOOT), -0.5);
-        AutoDriveTank(3500, -3500, 0.5);
+        AutoDriveTank(4500, -4500  , 0.5);
         Rotate(20);
         ResetFoundationServo();
         ResetClaw();

@@ -14,7 +14,7 @@ public class BlueFoundationAuto extends Robot{
 
     @Override
     public void runOpMode() throws InterruptedException{
-        final int FOOT = 800;
+        final int FOOT = 1600;
         final double sR = scaleRight;
         InitializeHardware();
 
@@ -22,6 +22,31 @@ public class BlueFoundationAuto extends Robot{
         while(!opModeIsActive()) {
             sleep(10);
         }
+
+        ResetFoundationServo();
+        AutoDriveFB((int) (-2*FOOT), -0.5);
+        Rotate(25);
+        AutoDriveFB((int) (-FOOT), -0.5);
+        sleep(100);
+        TurnFoundationServo();
+        sleep(200);
+        Rotate(40);
+        AutoDriveFB((int) (2.5 * FOOT), -0.5);
+        AutoDriveTank(-4000, 4000, .5);
+        Rotate(-20);
+        ResetFoundationServo();
+        ResetClaw();
+        sleep(300);
+        TurnClaw();
+        sleep(800);
+        AutoDriveFB((int) (-1.5*FOOT), -0.5);
+        AutoDriveFB((int) (.25*FOOT), -0.5);
+        Rotate(-20);
+        AutoDriveFB((int) (3.25*FOOT), -0.5);
+        ResetClaw();
+        sleep(200);
+
+        /*
         ResetFoundationServo();
         AutoDriveFB((int) (-1.5*FOOT), -0.5);
         Rotate(50);
